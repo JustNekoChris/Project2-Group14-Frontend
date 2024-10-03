@@ -1,10 +1,14 @@
+import React from 'react';
+import { Route, Routes } from 'react-router-dom';
 import LoginForm from './Components/LoginForm/LoginForm';
+import SignupForm from './Components/SignupForm/SignupForm';
 
 function App() {
   return (
-    <div>
-      <LoginForm/>
-    </div>
+    <Routes>
+      <Route path="/" element={<LoginForm />} />
+      <Route path="/SignupForm" element={<SignupForm />} />
+      </Routes>
   );
 }
 
