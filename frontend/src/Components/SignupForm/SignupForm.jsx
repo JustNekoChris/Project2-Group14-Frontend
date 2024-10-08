@@ -40,7 +40,7 @@ const SignupForm = () =>{
                 <FaLock className="icon"/>
             </div>
             <div className="input-box" >
-                <input type="password" placeholder='Retype Password' required value={confirmPassword}
+                <input type="password" placeholder='Confirm Password' required value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}/>
                 <FaLock className="icon"/>
             </div>
