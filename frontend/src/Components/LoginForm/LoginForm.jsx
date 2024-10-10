@@ -1,28 +1,51 @@
-import React from "react";
-import { Link } from 'react-router-dom';
+import React, { useState } from 'react';  // Make sure useState is imported
+import { useNavigate } from 'react-router-dom';  // Import useNavigate
 import './LoginForm.css';
-import { FaUser } from "react-icons/fa";
-import { FaLock } from "react-icons/fa";
 
-const LoginForm = () =>{
-    return (
-        <div className='wrapper'>
-            < form action="">
-            <h1>Login</h1>
-            <div className="input-box">
-                <input type="text" placeholder='Username' required />
-                <FaUser className="icon" />
-            </div>
-            <div className="input-box" >
-                <input type="password" placeholder='Password' required />
-                <FaLock className="icon"/>
-            </div>
-            < button type="submit">Login</button>
-            <div className="register-link" >
-                <p>Don't have an account? <Link to="/SignupForm"> Create Account </Link></p>
-            </div>
-        </form>
+const LoginForm = () => {
+  const [email, setEmail] = useState('');  // Correct useState usage
+  const [password, setPassword] = useState('');  // Correct useState usage
+  const navigate = useNavigate();  // Initialize useNavigate
+
+  const handleLogin = (e) => {
+    e.preventDefault();
+    
+    // You would validate login credentials here
+    // If successful, navigate to the home page
+    navigate('/home');  // This will take you to the home page
+  };
+
+  return (
+    <div className="wrapper">
+      <h1>Login</h1>
+      <form onSubmit={handleLogin}>
+        <div className="input-box">
+          <input
+            type="email"
+            placeholder="Enter Email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+          />
+        </div>
+        <div className="input-box">
+          <input
+            type="password"
+            placeholder="Enter Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
+        </div>
+        <button type="submit">Login</button>
+      </form>
+      <div className="register-link">
+        <p>
+          Don't have an account? <a href="/signup">Sign up</a>
+        </p>
+      </div>
     </div>
-    );
+  );
 };
+
 export default LoginForm;
