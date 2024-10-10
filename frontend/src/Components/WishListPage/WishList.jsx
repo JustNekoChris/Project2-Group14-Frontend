@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import "./WishList.css";
+import { Link } from 'react-router-dom';  // Import Link
 
 const WishList = () => {
   const [wish, setWish] = useState({
@@ -29,7 +30,7 @@ const WishList = () => {
 
   return (
     <div className="wishlist-container">
-      <h1 className="wishlist-title">My Wish List</h1>
+      <h1 className="wishlist-title">Add To Wish List</h1>
       <div className="wishlist-input-container">
         <input
           type="text"
@@ -59,7 +60,7 @@ const WishList = () => {
           onChange={(e) => setWish({ ...wish, price: e.target.value })}
           placeholder="Price"
           className="wishlist-input small-input"
-           min="0"
+          min="0"
         />
         <button onClick={addWish} className="wishlist-add-button">
           Add Wish
@@ -85,6 +86,9 @@ const WishList = () => {
           </li>
         ))}
       </ul>
+      <Link to="/home">
+        <button className="wishlist-back-button">Back to Home</button>
+      </Link>
     </div>
   );
 };
