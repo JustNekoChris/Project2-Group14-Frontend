@@ -1,18 +1,25 @@
-import React, { useState } from 'react';  // Make sure useState is imported
-import { useNavigate } from 'react-router-dom';  // Import useNavigate
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import './LoginForm.css';
+import { FaUser } from "react-icons/fa";
+import { FaLock } from "react-icons/fa";
 
 const LoginForm = () => {
-  const [email, setEmail] = useState('');  // Correct useState usage
-  const [password, setPassword] = useState('');  // Correct useState usage
-  const navigate = useNavigate();  // Initialize useNavigate
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const navigate = useNavigate();
+
+  const fakeEmail = "ricardo@gmail.com";
+  const fakePassword = "password123";
 
   const handleLogin = (e) => {
     e.preventDefault();
-    
-    // You would validate login credentials here
-    // If successful, navigate to the home page
-    navigate('/home');  // This will take you to the home page
+
+    if (email === fakeEmail && password === fakePassword) {
+      navigate('/home'); 
+    } else {
+      alert('Invalid email or password'); 
+    }
   };
 
   return (
@@ -27,6 +34,7 @@ const LoginForm = () => {
             onChange={(e) => setEmail(e.target.value)}
             required
           />
+          <FaUser className="icon" />
         </div>
         <div className="input-box">
           <input
@@ -36,6 +44,7 @@ const LoginForm = () => {
             onChange={(e) => setPassword(e.target.value)}
             required
           />
+          <FaLock className="icon" />
         </div>
         <button type="submit">Login</button>
       </form>
