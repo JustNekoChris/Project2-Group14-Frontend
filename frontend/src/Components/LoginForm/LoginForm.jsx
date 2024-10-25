@@ -9,16 +9,29 @@ const LoginForm = () => {
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
 
-  const fakeEmail = "ricardo@gmail.com";
-  const fakePassword = "password123";
-
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
 
-    if (email === fakeEmail && password === fakePassword) {
-      navigate('/home'); 
-    } else {
-      alert('Invalid email or password'); 
+    const params = new URLSearchParams();
+    params.append('email', email);
+    params.append('password', password);
+
+    try {
+      const response = await fetch(`http://localhost:8080/login?${params.toString()}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      });
+       if (response.ok) {
+        const message = await response.text();
+        alert(message);
+        navigate('/home'); // Successful login
+      } else {
+        const errorMessage = await response.text();
+        alert(errorMessage);
+      }
+    } catch (error) {
+      console.error('Error during login:', error);
+      alert('Something went wrong. Please try again.');
     }
   };
 
