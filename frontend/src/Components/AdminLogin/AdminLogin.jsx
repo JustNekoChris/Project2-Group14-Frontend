@@ -21,6 +21,11 @@ const AdminLogin = () => {
     }
   };
 
+  // Function to navigate back to login
+  const backToLogin = () => {
+    navigate('/');
+  }
+
   return (
     <div className="wrapper">
       <h1>Admin Login</h1>
@@ -45,6 +50,11 @@ const AdminLogin = () => {
         </div>
         <button type="submit">Login as Admin</button>
       </form>
+      <div className="register-link">
+        <p>
+          Not an Admin? <a href="/">User Login</a>
+        </p>
+      </div>
     </div>
   );
 };

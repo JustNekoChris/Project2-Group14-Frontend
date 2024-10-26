@@ -12,26 +12,24 @@ const LoginForm = () => {
   const handleLogin = async (e) => {
     e.preventDefault();
 
-    const params = new URLSearchParams();
-    params.append('email', email);
-    params.append('password', password);
-
     try {
-      const response = await fetch(`http://localhost:8080/login?${params.toString()}`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-      });
-       if (response.ok) {
-        const message = await response.text();
-        alert(message);
-        navigate('/home'); // Successful login
-      } else {
-        const errorMessage = await response.text();
-        alert(errorMessage);
-      }
+        const response = await fetch('http://localhost:8080/login', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email, password })
+        });
+
+        if (response.ok) {
+            const message = await response.text();
+            alert(message);
+            navigate('/home'); // Successful login
+        } else {
+            const errorMessage = await response.text();
+            alert(errorMessage);
+        }
     } catch (error) {
-      console.error('Error during login:', error);
-      alert('Something went wrong. Please try again.');
+        console.error('Error during login:', error);
+        alert('Something went wrong. Please try again.');
     }
   };
 
