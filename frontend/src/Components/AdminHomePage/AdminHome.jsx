@@ -1,39 +1,81 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import styles from './AdminHome.module.css';
 
 const AdminHome = () => {
-  const [users, setUsers] = useState([]);
+  const [username, setUsername] = useState('');
+  const [userDetails, setUserDetails] = useState({});
 
-  useEffect(() => {
-    const fetchUsers = async () => {
-      try {
-        const response = await fetch('https://localhost:8000/users'); // Replace with your actual backend URL
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
-        const data = await response.json();
-        setUsers(data);
-      } catch (error) {
-        console.error('There was an error fetching the users!', error);
+  // Handlers for API Requests
+  const handleCreateUser = async () => {
+    try {
+      const response = await fetch(`http://localhost:8080/users?username=${username}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(userDetails),
+      });
+      if (response.ok) {
+        alert('User created successfully!');
+      } else {
+        alert('Failed to create user.');
       }
-    };
+    } catch (error) {
+      console.error('Error creating user:', error);
+    }
+  };
 
-    fetchUsers();
-  }, []);
+  const handleDeleteUser = async () => {
+    const confirmation = window.confirm(`Are you sure you want to delete ${username}?`);
+    if (confirmation) {
+      try {
+        const response = await fetch(`http://localhost:8080/users?username=${username}`, {
+          method: 'DELETE',
+        });
+        if (response.ok) {
+          alert('User deleted successfully!');
+        } else {
+          alert('Failed to delete user.');
+        }
+      } catch (error) {
+        console.error('Error deleting user:', error);
+      }
+    }
+  };
 
+  const handleUpdateUser = async () => {
+    try {
+      const response = await fetch(`http://localhost:8080/users?username=${username}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(userDetails),
+      });
+      if (response.ok) {
+        alert('User updated successfully!');
+      } else {
+        alert('Failed to update user.');
+      }
+    } catch (error) {
+      console.error('Error updating user:', error);
+    }
+  };
+
+  // Render UI
   return (
     <div className={styles.wrapper}>
-      <h1>Admin Dashboard</h1>
-      <div className={styles.adminContent}>
-        <h2>All Users</h2>
-        <ul className={styles.userList}>
-          {users.map(user => (
-            <li key={user.id}>
-              {user.firstName} {user.lastName} - {user.email}
-            </li>
-          ))}
-        </ul>
-      </div>
+      <h1>Admin Home</h1>
+      <input
+        type="text"
+        placeholder="Username"
+        value={username}
+        onChange={(e) => setUsername(e.target.value)}
+      />
+      <input
+        type="text"
+        placeholder="Additional User Details (JSON format)"
+        onChange={(e) => setUserDetails({ ...userDetails, ...JSON.parse(e.target.value) })}
+      />
+      <button onClick={handleCreateUser}>Create User</button>
+      <button onClick={handleDeleteUser}>Delete User</button>
+      <button onClick={handleUpdateUser}>Update User</button>
     </div>
   );
 };
