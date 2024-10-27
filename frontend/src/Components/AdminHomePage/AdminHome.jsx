@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import styles from './AdminHome.module.css';
+import styles from './AdminHome.module.css'; // Using SignupForm styles directly
 
 const AdminHome = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [name, setName] = useState('');
   const [users, setUsers] = useState([]);
+  const [error, setError] = useState('');
+  const [success, setSuccess] = useState('');
 
   // Fetch all users when component mounts
   useEffect(() => {
@@ -23,23 +25,40 @@ const AdminHome = () => {
     }
   };
 
-  // Handlers for API Requests
-  const handleCreateUser = async () => {
+  // Function to handle form submission like signup
+  const handleCreateUser = async (e) => {
+    e.preventDefault();
+    setError('');
+    setSuccess('');
+
+    // Input validation
+    if (!name || !email || !password) {
+      setError('All fields are required.');
+      return;
+    }
+
     const userDetails = { email, password, name };
+
     try {
-      const response = await fetch('http://localhost:8080/users', {
-        method: 'PUT',
+      const response = await fetch('http://localhost:8080/users/signup', {
+        method: 'POST', // Assuming signup uses POST, adjust if needed
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(userDetails),
       });
+
       if (response.ok) {
-        alert('User created successfully!');
+        setSuccess('User created successfully!');
+        setEmail('');
+        setPassword('');
+        setName('');
         fetchUsers(); // Refresh the user list
       } else {
-        alert('Failed to create user.');
+        const data = await response.json();
+        setError(data.message || 'Failed to create user.');
       }
     } catch (error) {
       console.error('Error creating user:', error);
+      setError('An error occurred. Please try again.');
     }
   };
 
@@ -87,34 +106,38 @@ const AdminHome = () => {
   return (
     <div className={styles.wrapper}>
       <h1>Create User</h1>
-      <div className={styles.inputBox}>
-        <input
-          type="text"
-          placeholder="Full Name"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-        />
-        <i className={`${styles.icon} fas fa-user`}></i>
-      </div>
-      <div className={styles.inputBox}>
-        <input
-          type="email"
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
-        <i className={`${styles.icon} fas fa-envelope`}></i>
-      </div>
-      <div className={styles.inputBox}>
-        <input
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
-        <i className={`${styles.icon} fas fa-lock`}></i>
-      </div>
-      <button className={styles.button} onClick={handleCreateUser}>Create User</button>
+      {error && <div className={styles.error}>{error}</div>}
+      {success && <div className={styles.success}>{success}</div>}
+      <form onSubmit={handleCreateUser}>
+        <div className={styles.inputBox}>
+          <input
+            type="text"
+            placeholder="Full Name"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+          />
+          <i className={`${styles.icon} fas fa-user`}></i>
+        </div>
+        <div className={styles.inputBox}>
+          <input
+            type="email"
+            placeholder="Email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+          <i className={`${styles.icon} fas fa-envelope`}></i>
+        </div>
+        <div className={styles.inputBox}>
+          <input
+            type="password"
+            placeholder="Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+          <i className={`${styles.icon} fas fa-lock`}></i>
+        </div>
+        <button className={styles.button} type="submit">Create User</button>
+      </form>
       
       <div className={styles.adminContent}>
         <h2>User List</h2>
