@@ -18,7 +18,7 @@ const AdminHome = () => {
   // Function to fetch all users
   const fetchUsers = async () => {
     try {
-      const response = await fetch('http://localhost:8080/users');
+      const response = await fetch('https://project2-group14-c828d1f4017d.herokuapp.com/users');
       const data = await response.json();
       setUsers(data);
     } catch (error) {
@@ -44,7 +44,7 @@ const AdminHome = () => {
     const userDetails = { name, email, password: hashedPassword, salt };
 
     try {
-      const response = await fetch('http://localhost:8080/signup', {
+      const response = await fetch('https://project2-group14-c828d1f4017d.herokuapp.com/signup', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(userDetails),
@@ -89,7 +89,7 @@ const AdminHome = () => {
     }
 
     try {
-      const response = await fetch(`http://localhost:8080/users/update?userID=${userID}`, {
+      const response = await fetch(`https://project2-group14-c828d1f4017d.herokuapp.com/users/update?userID=${userID}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(updatedDetails),
@@ -110,7 +110,7 @@ const AdminHome = () => {
     const confirmation = window.confirm(`Are you sure you want to delete the user with ID ${userID}?`);
     if (confirmation) {
       try {
-        const response = await fetch(`http://localhost:8080/users/remove?userID=${userID}`, {
+        const response = await fetch(`https://project2-group14-c828d1f4017d.herokuapp.com/users/remove?userID=${userID}`, {
           method: 'DELETE',
         });
         if (response.ok) {

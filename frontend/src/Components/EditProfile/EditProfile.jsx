@@ -30,7 +30,7 @@ const EditProfile = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+  
     // Ensure password and confirm password match
     if (password !== confirmPassword) {
       setShowError(true);
@@ -39,18 +39,15 @@ const EditProfile = () => {
   
     // Get userID from the cookie
     const userID = getCookie("userID");
-    const salt = await bcrypt.genSalt();
-    const hashedPassword = await bcrypt.hash(password, salt);
-
+  
     try {
-        const response = await fetch(`https://project2-group14-c828d1f4017d.herokuapp.com/users/update?userID=${userID}`, {
-            method: 'PUT',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ name, password: hashedPassword, salt }),
-            credentials: 'include', // Include credentials for cross-origin requests
-          });
+      const salt = await bcrypt.genSalt();
+      const hashedPassword = await bcrypt.hash(password, salt);
+      const response = await fetch(`https://project2-group14-c828d1f4017d.herokuapp.com/users/update?userID=${userID}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, password: hashedPassword, salt }),
+      });
   
       // Check for success
       if (response.ok) {
