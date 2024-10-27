@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './AdminLogin.css';
+import styles from './AdminLogin.module.css';
 import { useNavigate } from 'react-router-dom';
 
 const AdminLogin = () => {
@@ -27,10 +27,10 @@ const AdminLogin = () => {
   }
 
   return (
-    <div className="wrapper">
+    <div className={styles.wrapper}>
       <h1>Admin Login</h1>
       <form onSubmit={handleAdminLogin}>
-        <div className="input-box">
+        <div className={styles.inputBox}>
           <input
             type="email"
             placeholder="Enter Admin Email"
@@ -39,7 +39,7 @@ const AdminLogin = () => {
             required
           />
         </div>
-        <div className="input-box">
+        <div className={styles.inputBox}>
           <input
             type="password"
             placeholder="Enter Admin Password"
@@ -50,7 +50,7 @@ const AdminLogin = () => {
         </div>
         <button type="submit">Login as Admin</button>
       </form>
-      <div className="register-link">
+      <div className={styles.registerLink}>
         <p>
           Not an Admin? <a href="/">User Login</a>
         </p>
