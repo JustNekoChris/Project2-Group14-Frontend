@@ -5,19 +5,20 @@ const AdminHome = () => {
   const [users, setUsers] = useState([]);
 
   useEffect(() => {
-    fetch('https://your-backend-url.com/api/users') 
-      .then(response => {
+    const fetchUsers = async () => {
+      try {
+        const response = await fetch('https://localhost:8000/users'); // Replace with your actual backend URL
         if (!response.ok) {
           throw new Error('Network response was not ok');
         }
-        return response.json();
-      })
-      .then(data => {
+        const data = await response.json();
         setUsers(data);
-      })
-      .catch(error => {
+      } catch (error) {
         console.error('There was an error fetching the users!', error);
-      });
+      }
+    };
+
+    fetchUsers();
   }, []);
 
   return (
