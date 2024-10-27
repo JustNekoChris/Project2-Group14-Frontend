@@ -16,7 +16,7 @@ const SignupForm = () => {
     // Function to check if email already exists in the database
     const handleEmailCheck = async () => {
         try {
-            const response = await fetch(`http://localhost:8080/checkemail?email=${email}`, {
+            const response = await fetch(`https://project2-group14-c828d1f4017d.herokuapp.com/checkemail?email=${email}`, {
                 method: 'GET',
                 headers: { 'Content-Type': 'application/json' }
             });
@@ -50,7 +50,7 @@ const SignupForm = () => {
         try {
             const salt = await bcrypt.genSalt();
             const hashedPassword = await bcrypt.hash(password, salt);
-            const response = await fetch('http://localhost:8080/signup', {
+            const response = await fetch('https://project2-group14-c828d1f4017d.herokuapp.com/signup', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ name, email, password: hashedPassword, salt })

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import styles from './EditProfile.module.css';
 import { useNavigate } from 'react-router-dom';
 import { getCookie } from '../HelpFunctions/cookieUtils';
+import bcrypt from "bcryptjs-react";
 
 const EditProfile = () => {
   const navigate = useNavigate();
@@ -38,22 +39,16 @@ const EditProfile = () => {
   
     // Get userID from the cookie
     const userID = getCookie("userID");
-  
-    // Prepare data for the API request
-    const updateData = {
-      userID,
-      name: name || undefined,
-      email: email || undefined,
-      password: password || undefined,
-    };
-  
+    const salt = await bcrypt.genSalt();
+    const hashedPassword = await bcrypt.hash(password, salt);
+
     try {
-        const response = await fetch(`http://localhost:8080/users/update?userID=${userID}&name=${name}&email=${email}&password=${password}`, {
-            method: 'PATCH',
+        const response = await fetch(`https://project2-group14-c828d1f4017d.herokuapp.com/users/update?userID=${userID}`, {
+            method: 'PUT',
             headers: {
               'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ userID, name, email, password }),
+            body: JSON.stringify({ name, password: hashedPassword, salt }),
             credentials: 'include', // Include credentials for cross-origin requests
           });
   
@@ -82,6 +77,7 @@ const EditProfile = () => {
   return (
     <div className={styles.wrapper}>
       <h1 className={styles.title}>Edit Profile</h1>
+      <button onClick={() => navigate('/home')} className={styles.backButton}>Back</button>
       <form onSubmit={handleSubmit} className={styles.form}>
         <div className={styles.formGroup}>
           <label htmlFor="name">Name</label>
@@ -90,15 +86,6 @@ const EditProfile = () => {
             id="name" 
             value={name} 
             onChange={(e) => setName(e.target.value)} 
-          />
-        </div>
-        <div className={styles.formGroup}>
-          <label htmlFor="email">Email</label>
-          <input 
-            type="email" 
-            id="email" 
-            value={email} 
-            onChange={(e) => setEmail(e.target.value)} 
           />
         </div>
         <div className={styles.formGroup}>

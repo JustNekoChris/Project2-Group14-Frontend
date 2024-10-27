@@ -21,7 +21,7 @@ const LoginForm = () => {
     e.preventDefault();
 
     try {
-        const response = await fetch('http://localhost:8080/login', {
+        const response = await fetch('https://project2-group14-c828d1f4017d.herokuapp.com/login', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ email, password })
