@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import './SignupForm.css';
+import styles from './SignupForm.module.css';
 import { useNavigate } from 'react-router-dom';
 import { FaUser, FaLock } from "react-icons/fa";
 import bcrypt from "bcryptjs-react";
@@ -75,10 +75,10 @@ const SignupForm = () => {
     }
 
     return (
-        <div className='wrapper'>
+        <div className={styles.wrapper}>
             <form onSubmit={handleSubmit}>
                 <h1>Create Account</h1>
-                <div className="input-box">
+                <div className={styles.inputBox}>
                     <input
                         type="text"
                         placeholder='Name'
@@ -86,9 +86,9 @@ const SignupForm = () => {
                         value={name}
                         onChange={(e) => setName(e.target.value)}
                     />
-                    <FaUser className="icon" />
+                    <FaUser className={styles.icon} />
                 </div>
-                <div className="input-box">
+                <div className={styles.inputBox}>
                     <input
                         type="text"
                         placeholder='Email'
@@ -97,10 +97,10 @@ const SignupForm = () => {
                         onChange={(e) => setEmail(e.target.value)}
                         onBlur={handleEmailCheck} // Trigger email check when input loses focus
                     />
-                    <FaUser className="icon" />
+                    <FaUser className={styles.icon} />
                     {emailError && <p className="error">{emailError}</p>} {/* Display email error */}
                 </div>
-                <div className="input-box">
+                <div className={styles.inputBox}>
                     <input
                         type="password"
                         placeholder='Password'
@@ -108,9 +108,9 @@ const SignupForm = () => {
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                     />
-                    <FaLock className="icon" />
+                    <FaLock className={styles.icon} />
                 </div>
-                <div className="input-box">
+                <div className={styles.inputBox}>
                     <input
                         type="password"
                         placeholder='Confirm Password'
@@ -118,12 +118,12 @@ const SignupForm = () => {
                         value={confirmPassword}
                         onChange={(e) => setConfirmPassword(e.target.value)}
                     />
-                    <FaLock className="icon" />
+                    <FaLock className={styles.icon} />
                 </div>
                 {error && <p className="error">{error}</p>}
                 <button type="submit" disabled={!!emailError}>Create Account</button>
             </form>
-            <button onClick={backToLogin} className="back-to-login-button">
+            <button onClick={backToLogin} className={styles.backToLoginButton}>
                 Back to Login
             </button>
         </div>
