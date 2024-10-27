@@ -40,6 +40,7 @@ const Home = () => {
           <ul>
             <li><Link to="/logout">Logout</Link></li>
             <li><Link to="/mywishlist">My Wishlists</Link></li>
+            <li><Link to="/editprofile">Edit Profile</Link></li>
             {/* <li><Link to="/addtowishlist">My Wishlist</Link></li> */}
           </ul>
         </nav>
