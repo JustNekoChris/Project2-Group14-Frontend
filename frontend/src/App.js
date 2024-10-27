@@ -7,6 +7,7 @@ import Wishlists from './Components/Wishlists/Wishlists';
 import AdminLogin from './Components/AdminLogin/AdminLogin';
 import AdminHome from './Components/AdminHomePage/AdminHome';
 import WishlistItems from './Components/WishlistItems/WishlistItems'; // Import the new component
+import EditProfile from './Components/EditProfile/EditProfile';
 
 function App() {
   const deleteCookie = (name) => {
@@ -22,6 +23,7 @@ function App() {
       <Route path="/wishlist-items/:wishlistID" element={<WishlistItems />} />
       <Route path="/admin-login" element={<AdminLogin />} />
       <Route path="/AdminHome" element={<AdminHome />} />
+      <Route path="/editprofile" element={<EditProfile />} />
       <Route 
         path="/logout" 
         element={

@@ -21,7 +21,7 @@ const AdminLogin = () => {
       e.preventDefault();
   
       try {
-          const response = await fetch('http://localhost:8080/login/admin', {
+          const response = await fetch('https://project2-group14-c828d1f4017d.herokuapp.com/login/admin', {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify({ email: adminEmail, password: adminPassword })
