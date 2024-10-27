@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import styles from './AdminHome.module.css';
+import styles from './AdminHome.module.css'; // Using SignupForm styles directly
 import bcrypt from "bcryptjs-react";
 
 const AdminHome = () => {
@@ -9,8 +9,6 @@ const AdminHome = () => {
   const [users, setUsers] = useState([]);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
-  const [isEditing, setIsEditing] = useState(false);
-  const [currentUserID, setCurrentUserID] = useState(null);
 
   // Fetch all users when component mounts
   useEffect(() => {
@@ -47,7 +45,7 @@ const AdminHome = () => {
 
     try {
       const response = await fetch('http://localhost:8080/signup', {
-        method: 'POST',
+        method: 'POST', // Assuming signup uses POST, adjust if needed
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(userDetails),
       });
@@ -87,68 +85,34 @@ const AdminHome = () => {
     }
   };
 
-  const handleEditUser = (userID) => {
-    // Prepare the form for editing an existing user
-    const user = users.find(u => u.userID === userID);
-    if (user) {
-      setName(user.name || '');
-      setPassword(''); // Don't pre-fill password for security reasons
-      setIsEditing(true);
-      setCurrentUserID(userID);
-    }
-  };
-
-  const handleUpdateUser = async (e) => {
-    e.preventDefault();
-    setError('');
-    setSuccess('');
-
-    if (!name && !password) {
-      setError('At least one field (Name or Password) is required for update.');
-      return;
-    }
-
-    // Prepare updated data
-    let updatedDetails = {};
-    if (name) updatedDetails.name = name;
-    if (password) {
-      const salt = await bcrypt.genSalt();
-      const hashedPassword = await bcrypt.hash(password, salt);
-      updatedDetails.password = hashedPassword;
-      updatedDetails.salt = salt;
-    }
-
-    try {
-      const response = await fetch(`http://localhost:8080/users/update?userID=${currentUserID}`, {
-        method: 'PATCH',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(updatedDetails),
-      });
-      
-      if (response.ok) {
-        setSuccess('User updated successfully!');
-        setName('');
-        setPassword('');
-        setIsEditing(false);
-        setCurrentUserID(null);
-        fetchUsers(); // Refresh the user list
-      } else {
-        const data = await response.json();
-        setError(data.message || 'Failed to update user.');
+  const handleUpdateUser = async (userID) => {
+    const updatedDetails = prompt('Enter new user details in JSON format:', '{}');
+    if (updatedDetails) {
+      try {
+        const response = await fetch(`http://localhost:8080/users/update?userID=${userID}`, {
+          method: 'PATCH',
+          headers: { 'Content-Type': 'application/json' },
+          body: updatedDetails,
+        });
+        if (response.ok) {
+          alert('User updated successfully!');
+          fetchUsers(); // Refresh the user list
+        } else {
+          alert('Failed to update user.');
+        }
+      } catch (error) {
+        console.error('Error updating user:', error);
       }
-    } catch (error) {
-      console.error('Error updating user:', error);
-      setError('An error occurred. Please try again.');
     }
   };
 
   // Render UI
   return (
     <div className={styles.wrapper}>
-      <h1>{isEditing ? 'Update User' : 'Create User'}</h1>
+      <h1>Create User</h1>
       {error && <div className={styles.error}>{error}</div>}
       {success && <div className={styles.success}>{success}</div>}
-      <form onSubmit={isEditing ? handleUpdateUser : handleCreateUser}>
+      <form onSubmit={handleCreateUser}>
         <div className={styles.inputBox}>
           <input
             type="text"
@@ -160,6 +124,15 @@ const AdminHome = () => {
         </div>
         <div className={styles.inputBox}>
           <input
+            type="email"
+            placeholder="Email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+          <i className={`${styles.icon} fas fa-envelope`}></i>
+        </div>
+        <div className={styles.inputBox}>
+          <input
             type="password"
             placeholder="Password"
             value={password}
@@ -167,9 +140,7 @@ const AdminHome = () => {
           />
           <i className={`${styles.icon} fas fa-lock`}></i>
         </div>
-        <button className={styles.button} type="submit">
-          {isEditing ? 'Update User' : 'Create User'}
-        </button>
+        <button className={styles.button} type="submit">Create User</button>
       </form>
       
       <div className={styles.adminContent}>
@@ -178,7 +149,7 @@ const AdminHome = () => {
           {users.map((user) => (
             <li key={user.userID}>
               <span>{user.email}</span>
-              <button className={styles.button} onClick={() => handleEditUser(user.userID)}>Edit</button>
+              <button className={styles.button} onClick={() => handleUpdateUser(user.userID)}>Update</button>
               <button className={styles.button} onClick={() => handleDeleteUser(user.userID)}>Delete</button>
             </li>
           ))}
