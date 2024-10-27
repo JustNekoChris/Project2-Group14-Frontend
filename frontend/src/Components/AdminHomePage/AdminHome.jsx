@@ -3,7 +3,8 @@ import styles from './AdminHome.module.css';
 
 const AdminHome = () => {
   const [email, setEmail] = useState('');
-  const [userDetails, setUserDetails] = useState({});
+  const [password, setPassword] = useState('');
+  const [name, setName] = useState('');
   const [users, setUsers] = useState([]);
 
   // Fetch all users when component mounts
@@ -24,8 +25,9 @@ const AdminHome = () => {
 
   // Handlers for API Requests
   const handleCreateUser = async () => {
+    const userDetails = { email, password, name };
     try {
-      const response = await fetch(`http://localhost:8080/users?email=${email}`, {
+      const response = await fetch('http://localhost:8080/users', {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(userDetails),
@@ -84,21 +86,32 @@ const AdminHome = () => {
   // Render UI
   return (
     <div className={styles.wrapper}>
-      <h1>Admin Home</h1>
-      <div>
+      <h1>Create User</h1>
+      <div className={styles.inputBox}>
+        <input
+          type="text"
+          placeholder="Full Name"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+        />
+      </div>
+      <div className={styles.inputBox}>
         <input
           type="email"
           placeholder="Email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
         />
-        <input
-          type="text"
-          placeholder="Additional User Details (JSON format)"
-          onChange={(e) => setUserDetails({ ...userDetails, ...JSON.parse(e.target.value) })}
-        />
-        <button onClick={handleCreateUser}>Create User</button>
       </div>
+      <div className={styles.inputBox}>
+        <input
+          type="password"
+          placeholder="Password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+        />
+      </div>
+      <button onClick={handleCreateUser}>Create User</button>
       
       <div className={styles.adminContent}>
         <h2>User List</h2>
