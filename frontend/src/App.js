@@ -21,7 +21,7 @@ function App() {
       <Route path="/mywishlist" element={<Wishlists />} />
       <Route path="/wishlist-items/:wishlistID" element={<WishlistItems />} />
       <Route path="/admin-login" element={<AdminLogin />} />
-      <Route path="/admin-home" element={<AdminHome />} />
+      <Route path="/AdminHome" element={<AdminHome />} />
       <Route 
         path="/logout" 
         element={
