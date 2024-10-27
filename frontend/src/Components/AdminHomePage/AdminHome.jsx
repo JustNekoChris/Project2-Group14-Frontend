@@ -94,6 +94,7 @@ const AdminHome = () => {
           value={name}
           onChange={(e) => setName(e.target.value)}
         />
+        <i className={`${styles.icon} fas fa-user`}></i>
       </div>
       <div className={styles.inputBox}>
         <input
@@ -102,6 +103,7 @@ const AdminHome = () => {
           value={email}
           onChange={(e) => setEmail(e.target.value)}
         />
+        <i className={`${styles.icon} fas fa-envelope`}></i>
       </div>
       <div className={styles.inputBox}>
         <input
@@ -110,8 +112,9 @@ const AdminHome = () => {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
+        <i className={`${styles.icon} fas fa-lock`}></i>
       </div>
-      <button onClick={handleCreateUser}>Create User</button>
+      <button className={styles.button} onClick={handleCreateUser}>Create User</button>
       
       <div className={styles.adminContent}>
         <h2>User List</h2>
@@ -119,8 +122,8 @@ const AdminHome = () => {
           {users.map((user) => (
             <li key={user.userID}>
               <span>{user.email}</span>
-              <button onClick={() => handleUpdateUser(user.userID)}>Update</button>
-              <button onClick={() => handleDeleteUser(user.userID)}>Delete</button>
+              <button className={styles.button} onClick={() => handleUpdateUser(user.userID)}>Update</button>
+              <button className={styles.button} onClick={() => handleDeleteUser(user.userID)}>Delete</button>
             </li>
           ))}
         </ul>
