@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styles from './AdminHome.module.css'; // Using SignupForm styles directly
+import bcrypt from "bcryptjs-react";
 
 const AdminHome = () => {
   const [email, setEmail] = useState('');
@@ -37,10 +38,13 @@ const AdminHome = () => {
       return;
     }
 
-    const userDetails = { email, password, name };
+    const salt = await bcrypt.genSalt();
+    const hashedPassword = await bcrypt.hash(password, salt);
+
+    const userDetails = { name, email, password: hashedPassword, salt };
 
     try {
-      const response = await fetch('http://localhost:8080/users/signup', {
+      const response = await fetch('http://localhost:8080/signup', {
         method: 'POST', // Assuming signup uses POST, adjust if needed
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(userDetails),
