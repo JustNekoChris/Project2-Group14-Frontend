@@ -41,11 +41,11 @@ const AdminHome = () => {
     }
   };
 
-  const handleDeleteUser = async (userEmail) => {
-    const confirmation = window.confirm(`Are you sure you want to delete the user with email ${userEmail}?`);
+  const handleDeleteUser = async (userID) => {
+    const confirmation = window.confirm(`Are you sure you want to delete the user with ID ${userID}?`);
     if (confirmation) {
       try {
-        const response = await fetch(`http://localhost:8080/users?email=${userEmail}`, {
+        const response = await fetch(`http://localhost:8080/users/remove?userID=${userID}`, {
           method: 'DELETE',
         });
         if (response.ok) {
@@ -60,11 +60,11 @@ const AdminHome = () => {
     }
   };
 
-  const handleUpdateUser = async (userEmail) => {
+  const handleUpdateUser = async (userID) => {
     const updatedDetails = prompt('Enter new user details in JSON format:', '{}');
     if (updatedDetails) {
       try {
-        const response = await fetch(`http://localhost:8080/users?email=${userEmail}`, {
+        const response = await fetch(`http://localhost:8080/users/update?userID=${userID}`, {
           method: 'PATCH',
           headers: { 'Content-Type': 'application/json' },
           body: updatedDetails,
@@ -103,11 +103,11 @@ const AdminHome = () => {
       <div className={styles.adminContent}>
         <h2>User List</h2>
         <ul className={styles.userList}>
-          {users.map((user, index) => (
-            <li key={index}>
+          {users.map((user) => (
+            <li key={user.userID}>
               <span>{user.email}</span>
-              <button onClick={() => handleUpdateUser(user.email)}>Update</button>
-              <button onClick={() => handleDeleteUser(user.email)}>Delete</button>
+              <button onClick={() => handleUpdateUser(user.userID)}>Update</button>
+              <button onClick={() => handleDeleteUser(user.userID)}>Delete</button>
             </li>
           ))}
         </ul>
