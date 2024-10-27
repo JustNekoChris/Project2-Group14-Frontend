@@ -1,3 +1,95 @@
+
+.wrapper {
+  width: 420px; 
+  background: transparent;
+  border: 2px solid rgba(255, 255, 255, .2);
+  backdrop-filter: blur(30px);
+  box-shadow: 0 0 10px rgba(0, 0, 0, .2);
+  color: #fff;
+  border-radius: 10px;
+  padding: 30px 40px; 
+  margin: 0 auto;
+  text-align: center;
+}
+
+.wrapper h1 {
+  font-size: 36px;
+  margin-bottom: 20px;
+}
+
+.wrapper button {
+  width: 100%;
+  height: 45px;
+  background: #fff;
+  border: none;
+  outline: none;
+  border-radius: 40px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, .1);
+  cursor: pointer;
+  font-size: 16px;
+  color: #333;
+  font-weight: 700;
+  margin-top: 20px;
+}
+
+.navbar ul {
+  list-style: none;
+  padding: 0;
+  margin: 20px 0;
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+}
+
+.navbar ul li a {
+  color: #fff;
+  text-decoration: none;
+  font-weight: 600;
+  padding: 10px 20px;
+  border-radius: 40px;
+  border: 2px solid rgba(255, 255, 255, .2);
+  transition: background-color 0.3s ease;
+}
+
+.navbar ul li a:hover {
+  background-color: rgba(255, 255, 255, .1);
+}
+
+.adminOverview {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 30px;
+}
+
+.overviewBox {
+  background: rgba(255, 255, 255, .1);
+  border-radius: 10px;
+  padding: 20px;
+  width: 100px;
+  text-align: center;
+}
+
+.adminContent {
+  margin-top: 30px;
+  text-align: left;
+}
+
+.wrapper .link {
+  font-size: 14.5px;
+  text-align: center;
+  margin: 20px 0;
+}
+
+.wrapper .link a {
+  color: #fff;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.wrapper .link a:hover {
+  text-decoration: underline;
+}
+
 .userList {
   list-style: none;
   padding: 0;

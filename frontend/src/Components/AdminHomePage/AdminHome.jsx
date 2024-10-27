@@ -1,14 +1,19 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
 import styles from './AdminHome.module.css';
 
 const AdminHome = () => {
   const [users, setUsers] = useState([]);
 
   useEffect(() => {
-    axios.get('http://localhost:8080/api/users') 
+    fetch('https://your-backend-url.com/api/users') 
       .then(response => {
-        setUsers(response.data);
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return response.json();
+      })
+      .then(data => {
+        setUsers(data);
       })
       .catch(error => {
         console.error('There was an error fetching the users!', error);
