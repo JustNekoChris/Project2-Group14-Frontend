@@ -2,13 +2,13 @@ import React, { useState } from 'react';
 import styles from './AdminHome.module.css';
 
 const AdminHome = () => {
-  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
   const [userDetails, setUserDetails] = useState({});
 
   // Handlers for API Requests
   const handleCreateUser = async () => {
     try {
-      const response = await fetch(`http://localhost:8080/users?username=${username}`, {
+      const response = await fetch(`http://localhost:8080/users?email=${email}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(userDetails),
@@ -24,10 +24,10 @@ const AdminHome = () => {
   };
 
   const handleDeleteUser = async () => {
-    const confirmation = window.confirm(`Are you sure you want to delete ${username}?`);
+    const confirmation = window.confirm(`Are you sure you want to delete the user with email ${email}?`);
     if (confirmation) {
       try {
-        const response = await fetch(`http://localhost:8080/users?username=${username}`, {
+        const response = await fetch(`http://localhost:8080/users?email=${email}`, {
           method: 'DELETE',
         });
         if (response.ok) {
@@ -43,7 +43,7 @@ const AdminHome = () => {
 
   const handleUpdateUser = async () => {
     try {
-      const response = await fetch(`http://localhost:8080/users?username=${username}`, {
+      const response = await fetch(`http://localhost:8080/users?email=${email}`, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(userDetails),
@@ -63,10 +63,10 @@ const AdminHome = () => {
     <div className={styles.wrapper}>
       <h1>Admin Home</h1>
       <input
-        type="text"
-        placeholder="Username"
-        value={username}
-        onChange={(e) => setUsername(e.target.value)}
+        type="email"
+        placeholder="Email"
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
       />
       <input
         type="text"
