@@ -89,3 +89,16 @@
 .wrapper .link a:hover {
   text-decoration: underline;
 }
+
+.userList {
+  list-style: none;
+  padding: 0;
+  margin-top: 20px;
+}
+
+.userList li {
+  background: rgba(255, 255, 255, 0.1);
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+}
