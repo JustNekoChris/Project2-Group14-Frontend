@@ -45,7 +45,7 @@ const AdminHome = () => {
 
     try {
       const response = await fetch('http://localhost:8080/signup', {
-        method: 'POST', // Assuming signup uses POST, adjust if needed
+        method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(userDetails),
       });
@@ -66,6 +66,46 @@ const AdminHome = () => {
     }
   };
 
+  // Update user details including name and password
+  const handleUpdateUser = async (userID) => {
+    // Get new details from user
+    const newName = prompt('Enter new name:');
+    const newPassword = prompt('Enter new password:');
+
+    if (!newName && !newPassword) {
+      alert('No updates were made.');
+      return;
+    }
+
+    // Prepare updated details
+    let updatedDetails = {};
+    if (newName) {
+      updatedDetails.name = newName;
+    }
+    if (newPassword) {
+      const salt = await bcrypt.genSalt();
+      const hashedPassword = await bcrypt.hash(newPassword, salt);
+      updatedDetails.password = hashedPassword;
+    }
+
+    try {
+      const response = await fetch(`http://localhost:8080/users/update?userID=${userID}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(updatedDetails),
+      });
+
+      if (response.ok) {
+        alert('User updated successfully!');
+        fetchUsers(); // Refresh the user list
+      } else {
+        alert('Failed to update user.');
+      }
+    } catch (error) {
+      console.error('Error updating user:', error);
+    }
+  };
+
   const handleDeleteUser = async (userID) => {
     const confirmation = window.confirm(`Are you sure you want to delete the user with ID ${userID}?`);
     if (confirmation) {
@@ -81,27 +121,6 @@ const AdminHome = () => {
         }
       } catch (error) {
         console.error('Error deleting user:', error);
-      }
-    }
-  };
-
-  const handleUpdateUser = async (userID) => {
-    const updatedDetails = prompt('Enter new user details in JSON format:', '{}');
-    if (updatedDetails) {
-      try {
-        const response = await fetch(`http://localhost:8080/users/update?userID=${userID}`, {
-          method: 'PATCH',
-          headers: { 'Content-Type': 'application/json' },
-          body: updatedDetails,
-        });
-        if (response.ok) {
-          alert('User updated successfully!');
-          fetchUsers(); // Refresh the user list
-        } else {
-          alert('Failed to update user.');
-        }
-      } catch (error) {
-        console.error('Error updating user:', error);
       }
     }
   };
