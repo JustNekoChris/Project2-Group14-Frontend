@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import styles from './AdminHome.module.css'; // Using SignupForm styles directly
+import styles from './AdminHome.module.css';
 import bcrypt from "bcryptjs-react";
 
 const AdminHome = () => {
