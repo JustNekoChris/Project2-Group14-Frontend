@@ -25,7 +25,7 @@ const WishlistItems = () => {
 
     const fetchItems = async () => {
         try {
-            const response = await fetch(`http://localhost:8080/items/wishlist?wishlistID=${wishlistID}`);
+            const response = await fetch(`https://project2-group14-c828d1f4017d.herokuapp.com/items/wishlist?wishlistID=${wishlistID}`);
             if (!response.ok) {
                 throw new Error('Failed to fetch items');
             }
@@ -41,12 +41,12 @@ const WishlistItems = () => {
     useEffect(() => {
         const fetchWishlist = async () => {
             const userIdFromCookie = getCookie("userID");
-            const response = await fetch(`http://localhost:8080/wishlist/single?wishlistID=${wishlistID}`);
+            const response = await fetch(`https://project2-group14-c828d1f4017d.herokuapp.com/wishlist/single?wishlistID=${wishlistID}`);
             if (!response.ok) {
                 throw new Error('Failed to fetch wishlist');
             }
             const data = await response.json();
-            if (data.userID === userIdFromCookie) {
+            if (data.userID == userIdFromCookie) {
                 setIsOwner(true);
             }
         };
@@ -66,7 +66,7 @@ const WishlistItems = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await fetch(`http://localhost:8080/items/create`, {
+            const response = await fetch(`https://project2-group14-c828d1f4017d.herokuapp.com/items/create`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded',
@@ -104,7 +104,7 @@ const WishlistItems = () => {
     const handleEditSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await fetch(`http://localhost:8080/items/update`, {
+            const response = await fetch(`https://project2-group14-c828d1f4017d.herokuapp.com/items/update`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded',
@@ -152,7 +152,7 @@ const WishlistItems = () => {
 
     const deleteItem = async () => {
         try {
-            const response = await fetch(`http://localhost:8080/items/remove?productID=${selectedItem.productID}`, {
+            const response = await fetch(`https://project2-group14-c828d1f4017d.herokuapp.com/items/remove?productID=${selectedItem.productID}`, {
                 method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json',

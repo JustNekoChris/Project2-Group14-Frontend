@@ -35,7 +35,7 @@ const Wishlists = () => {
 
     const fetchWishlists = async (userID) => {
         try {
-            const response = await fetch(`http://localhost:8080/wishlist/user?userID=${userID}`);
+            const response = await fetch(`https://project2-group14-c828d1f4017d.herokuapp.com/wishlist/user?userID=${userID}`);
             if (!response.ok) {
                 throw new Error('Failed to fetch wishlists');
             }
@@ -48,7 +48,7 @@ const Wishlists = () => {
 
     const handleCreateWishlist = async () => {
         try {
-            const response = await fetch(`http://localhost:8080/wishlist/create?userID=${userID}&wishlistName=${newWishlistName}`, {
+            const response = await fetch(`https://project2-group14-c828d1f4017d.herokuapp.com/wishlist/create?userID=${userID}&wishlistName=${newWishlistName}`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -73,7 +73,7 @@ const Wishlists = () => {
 
     const handleDeleteWishlist = async (wishlistID) => {
         try {
-            const response = await fetch(`http://localhost:8080/wishlist/delete?wishlistID=${wishlistID}`, {
+            const response = await fetch(`https://project2-group14-c828d1f4017d.herokuapp.com/wishlist/delete?wishlistID=${wishlistID}`, {
                 method: 'DELETE',
             });
 
